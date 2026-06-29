@@ -57,3 +57,116 @@ tasks.register("generateStubs") {
     println("Generated stubs successfully!")
   }
 }
+
+tasks.register("generateStubs2") {
+  doLast {
+    val dbDir = file("app/src/main/java/com/example/database")
+    dbDir.mkdirs()
+    val dbCode = """
+package com.example.database
+import androidx.room.*
+import android.content.Context
+import kotlinx.coroutines.flow.Flow
+
+@Entity(tableName = "tracker")
+data class DailyTracker(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val date: String = "",
+    val quran: Boolean = false,
+    val charity: Boolean = false,
+    val reading: Boolean = false,
+    val istighfar: Boolean = false,
+    val parents: Boolean = false,
+    val fajr: Boolean = false,
+    val dhuhr: Boolean = false,
+    val asr: Boolean = false,
+    val maghrib: Boolean = false,
+    val isha: Boolean = false
+)
+
+@Entity(tableName = "notifications")
+data class NotificationEntity(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val title: String,
+    val body: String,
+    val timestamp: Long,
+    val type: String,
+    val actorName: String,
+    val remoteId: String,
+    val isRead: Boolean = false
+)
+
+@Entity(tableName = "alarms")
+data class UserAlarm(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val hour: Int,
+    val minute: Int,
+    val amPm: String,
+    val days: String,
+    val deleteAfterRinging: Boolean,
+    val sound: String,
+    val ringtoneUri: String?,
+    val label: String,
+    val snooze: Boolean,
+    val vibrate: Boolean,
+    val isEnabled: Boolean = true
+)
+
+@Dao
+interface NotificationDao {
+    @Query("SELECT * FROM notifications ORDER BY timestamp DESC")
+    fun getAllNotifications(): Flow<List<NotificationEntity>>
+    @Insert
+    fun insertNotification(notification: NotificationEntity)
+    @Query("UPDATE notifications SET isRead = 1")
+    fun markAllAsRead()
+}
+
+@Database(entities = [DailyTracker::class, NotificationEntity::class, UserAlarm::class], version = 1, exportSchema = false)
+abstract class TrackerDatabase : RoomDatabase() {
+    abstract fun notificationDao(): NotificationDao
+    companion object {
+        @Volatile private var Instance: TrackerDatabase? = null
+        fun getDatabase(context: Context): TrackerDatabase =
+            Instance ?: synchronized(this) {
+                Room.databaseBuilder(context, TrackerDatabase::class.java, "tracker_db").build().also { Instance = it }
+            }
+    }
+}
+    """.trimIndent()
+    java.io.File(dbDir, "Database.kt").writeText(dbCode)
+
+    val vmDir = file("app/src/main/java/com/example/viewmodel")
+    vmDir.mkdirs()
+    val vmCode = """
+package com.example.viewmodel
+import android.content.Context
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import com.example.database.DailyTracker
+
+class SettingsViewModel(context: Context) : ViewModel() {
+    private val _language = MutableStateFlow("en")
+    val language: StateFlow<String> = _language
+    private val _selectedCountryCode = MutableStateFlow("BD")
+    val selectedCountryCode: StateFlow<String> = _selectedCountryCode
+
+    fun setSelectedCountryAndLanguage(code: String) {
+        _selectedCountryCode.value = code
+    }
+}
+
+data class TrackerState(
+    val history: List<DailyTracker> = emptyList()
+)
+
+class TrackerViewModel : ViewModel() {
+    private val _uiState = MutableStateFlow(TrackerState())
+    val uiState: StateFlow<TrackerState> = _uiState
+}
+    """.trimIndent()
+    java.io.File(vmDir, "ViewModels.kt").writeText(vmCode)
+    println("Generated viewmodels and DB successfully!")
+  }
+}

@@ -29,7 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.data.DuaData
+import com.example.model.DuaData
 import com.example.model.Dua
 import com.example.ui.theme.*
 

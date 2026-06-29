@@ -540,8 +540,8 @@ class PrayerViewModel : ViewModel() {
                 val progress = ((currentHourDec - startHour) / totalDuration).coerceIn(0.0, 1.0).toFloat()
                 
                 val h = Math.floor(diff).toInt()
-                val m = Math.floor((diff - h)*60).toInt()
-                val s = Math.floor(((diff - h)*60 - m)*60).toInt()
+                val m = Math.floor((diff - h.toDouble())*60).toInt()
+                val s = Math.floor(((diff - h.toDouble())*60 - m.toDouble())*60).toInt()
                 
                 val timeStr = String.format("%02d:%02d:%02d", h, m, s).toBengali()
                 
@@ -571,8 +571,8 @@ class PrayerViewModel : ViewModel() {
                 val specProgress = ((currentHourDec - startHour) / specTotal).coerceIn(0.0, 1.0).toFloat()
                 
                 val sh = Math.floor(specDiff).toInt()
-                val sm = Math.floor((specDiff - sh)*60).toInt()
-                val ss = Math.floor(((specDiff - sh)*60 - sm)*60).toInt()
+                val sm = Math.floor((specDiff - sh.toDouble())*60).toInt()
+                val ss = Math.floor(((specDiff - sh.toDouble())*60 - sm.toDouble())*60).toInt()
                 val specTimeStr = String.format("%02d:%02d:%02d", sh, sm, ss).toBengali()
 
                 _state.update { it.copy(

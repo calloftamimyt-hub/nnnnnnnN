@@ -44,7 +44,7 @@ class AlarmActivity : ComponentActivity() {
         setContentView(R.layout.activity_alarm)
 
         val label = intent.getStringExtra("ALARM_LABEL") ?: "HalalCircle Alarm"
-        findViewById<TextView>(R.id.appName).text = label
+        findViewById<TextView>(R.id.alarmLabelText).text = label
 
         val fromService = intent.getBooleanExtra("FROM_SERVICE", false)
         val alarmId = intent.getIntExtra("ALARM_ID", -1)
@@ -62,8 +62,8 @@ class AlarmActivity : ComponentActivity() {
             ringtone?.play()
         }
 
-        val btnSnooze = findViewById<Button>(R.id.btnSnooze)
-        val btnDismiss = findViewById<Button>(R.id.btnDismiss)
+        val btnSnooze = findViewById<Button>(R.id.snoozeButton)
+        val btnDismiss = findViewById<Button>(R.id.dismissButton)
 
         // সবুজ বাটন (Snooze): ১০ মিনিট পর আবার বাজবে
         btnSnooze.setOnClickListener {

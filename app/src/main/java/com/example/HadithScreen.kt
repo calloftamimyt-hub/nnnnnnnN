@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import android.content.Context
-import com.example.data.HadithData
+import com.example.model.HadithData
 import com.example.model.Hadith
 import com.example.ui.theme.*
 

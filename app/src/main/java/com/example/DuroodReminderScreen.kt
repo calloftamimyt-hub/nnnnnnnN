@@ -144,10 +144,10 @@ fun DuroodReminderScreen(
                                 selectedIntervalMins,
                                 isVoiceEnabled,
                                 selectedText,
+                                customVoiceUri,
                                 isBusyEnabled,
                                 busyStartMins,
-                                busyEndMins,
-                                customVoiceUri
+                                busyEndMins
                             )
                             android.widget.Toast.makeText(context, if (isEnglish) "Settings Saved" else "সেটিংস সেভ হয়েছে", android.widget.Toast.LENGTH_SHORT).show()
                             onBack()
@@ -232,15 +232,15 @@ fun DuroodReminderScreen(
                             if (!checked) {
                                 // Direct save if turning off
                                 DuroodHelper.saveConfig(
-                                    context = context,
-                                    enabled = false,
-                                    interval = selectedIntervalMins,
-                                    voiceEnabled = isVoiceEnabled,
-                                    text = selectedText,
-                                    busyEnabled = isBusyEnabled,
-                                    busyStartMins = busyStartMins,
-                                    busyEndMins = busyEndMins,
-                                    customVoiceUri = customVoiceUri
+                                    context,
+                                    false,
+                                    selectedIntervalMins,
+                                    isVoiceEnabled,
+                                    selectedText,
+                                    customVoiceUri,
+                                    isBusyEnabled,
+                                    busyStartMins,
+                                    busyEndMins
                                 )
                             }
                         },
