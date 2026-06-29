@@ -1,0 +1,6 @@
+{
+  "name": "Halal Circle",
+  "description": "An Islamic companion app with prayer times, Quran, Dua, and alarms.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

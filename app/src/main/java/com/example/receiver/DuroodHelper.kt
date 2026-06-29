@@ -1,0 +1,3 @@
+package com.example.receiver
+import android.content.*
+object DuroodHelper { fun isEnabled(c: Context)=false; fun getIntervalMins(c: Context)=15; fun isVoiceEnabled(c: Context)=false; fun getSelectedText(c: Context)=""; fun isBusyEnabled(c: Context)=false; fun getBusyStartMins(c: Context)=0; fun getBusyEndMins(c: Context)=0; fun getCustomVoiceUri(c: Context): String? = null; fun saveConfig(c:Context, enabled:Boolean, interval:Int, voice:Boolean, text:String, customVoice:String?, busy:Boolean, start:Int, end:Int) {} }
